@@ -18,6 +18,9 @@ venv/
 # Academic Paper & Evaluation Documents (Keep off repository)
 *.docx
 generate_final_exam_doc.js
+draw_workbench_screens.ps1
+setup_workbench_views.js
+fig*.png
 stitch_export/
 ~$*
 *.tmp
