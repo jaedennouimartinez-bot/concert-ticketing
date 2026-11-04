@@ -333,7 +333,7 @@ async function buildDocument() {
               new TableRow({
                 children: [
                   createCell('Active System Repository / Link:', 30, true),
-                  createCell('Live Public App: https://competitive-biological-parental-watson.trycloudflare.com/\nLocalhost Server: http://localhost:3000\nLocal Codebase: D:\\wearetheworldwearetheniggas\\ConcertTicketing', 70, false)
+                  createCell('GitHub Repository: https://github.com/jaedennouimartinez-bot/concert-ticketing\nLive Public App: https://competitive-biological-parental-watson.trycloudflare.com/\nLocalhost Server: http://localhost:3000\nLocal Codebase: D:\\wearetheworldwearetheniggas\\ConcertTicketing', 70, false)
                 ]
               })
             ]
@@ -871,6 +871,13 @@ async function buildDocument() {
                   createHeaderCell('Access Layer', 30),
                   createHeaderCell('Endpoint / Link', 40),
                   createHeaderCell('Access Purpose & Credentials', 30)
+                ]
+              }),
+              new TableRow({
+                children: [
+                  createCell('GitHub Software Repository', 30, true),
+                  createCell('https://github.com/jaedennouimartinez-bot/concert-ticketing', 40),
+                  createCell('Public source repository with version history and documentation.', 30)
                 ]
               }),
               new TableRow({
