@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>LivePass Organizer Portal • Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0037b0",
+            "primary-container": "#1d4ed8",
+            "on-primary": "#ffffff",
+            "secondary": "#006e2d",
+            "surface": "#faf8ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "surface-container": "#eaedff",
+            "surface-container-high": "#e2e7ff",
+            "on-surface": "#131b2e",
+            "on-surface-variant": "#434655",
+            "outline": "#747686",
+            "outline-variant": "#c4c5d7",
+            "error": "#ba1a1a",
+            "primary-fixed": "#dce1ff"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; font-family: 'Inter', sans-serif; } }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col justify-center items-center p-4">
+
+  <main class="w-full flex-1 flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-xl p-8 sm:p-10 flex flex-col relative overflow-hidden border border-slate-100">
+      
+      <!-- Ambient Glows -->
+      <div class="absolute -top-20 -right-20 w-44 h-44 rounded-full bg-blue-100 blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-20 w-44 h-44 rounded-full bg-emerald-100 blur-2xl pointer-events-none"></div>
+
+      <!-- Header Content -->
+      <div class="relative flex flex-col items-center text-center">
+        <div class="w-14 h-14 rounded-2xl bg-primary-container flex items-center justify-center text-white shadow-md mb-4 transition-transform hover:scale-105 duration-200">
+          <span class="material-symbols-outlined text-[30px]" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+        </div>
+        <span class="text-[12px] uppercase text-primary tracking-wider mb-2 font-bold">
+          Concert Ticketing • Organizer Access
+        </span>
+        <h1 class="text-[24px] font-extrabold text-on-surface mb-2">
+          Organizer Login
+        </h1>
+        <p class="text-[14px] text-on-surface-variant max-w-xs mb-6">
+          Sign in to manage venue box office, attendees, and ticketing capacity.
+        </p>
+      </div>
+
+      <!-- Error Banner -->
+      <div id="login-error-alert" class="hidden mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-[13px] flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">error</span>
+        <span id="login-error-text">Invalid email or password.</span>
+      </div>
+
+      <!-- Login Form -->
+      <form class="relative flex flex-col gap-4 w-full" id="organizer-login-form">
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[14px] font-semibold text-on-surface" for="organizer-email">
+            Email Address
+          </label>
+          <div class="relative flex items-center">
+            <span class="material-symbols-outlined absolute left-3.5 text-outline text-[20px] pointer-events-none">
+              mail
+            </span>
+            <input autocomplete="email" class="w-full h-12 pl-11 pr-4 rounded-xl bg-surface-container-lowest text-on-surface text-[14px] placeholder:text-outline/70 border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-container transition-all shadow-sm" id="organizer-email" name="email" placeholder="organizer@venue.com" value="organizer@venue.com" required="" type="email"/>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between">
+            <label class="text-[14px] font-semibold text-on-surface" for="organizer-password">
+              Password
+            </label>
+          </div>
+          <div class="relative flex items-center">
+            <span class="material-symbols-outlined absolute left-3.5 text-outline text-[20px] pointer-events-none">
+              lock
+            </span>
+            <input autocomplete="current-password" class="w-full h-12 pl-11 pr-12 rounded-xl bg-surface-container-lowest text-on-surface text-[14px] placeholder:text-outline/70 border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-container transition-all shadow-sm" id="organizer-password" name="password" placeholder="Enter your passkey" value="password123" required="" type="password"/>
+            <button aria-label="Toggle password visibility" class="absolute right-2 p-2 text-outline hover:text-on-surface transition-colors rounded-lg flex items-center justify-center cursor-pointer" id="toggle-password-btn" type="button">
+              <span class="material-symbols-outlined text-[20px]" id="password-toggle-icon">
+                visibility
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-1">
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input class="w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" id="remember-me" type="checkbox" checked/>
+            <span class="text-[13px] text-on-surface-variant font-medium">
+              Remember me
+            </span>
+          </label>
+          <a class="text-[13px] text-primary hover:underline font-semibold" href="javascript:alert('Default password is password123')">
+            Forgot password?
+          </a>
+        </div>
+
+        <button class="w-full h-12 mt-2 bg-primary-container hover:bg-blue-800 active:scale-[0.99] text-white font-bold text-[15px] rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer" id="login-submit-button" type="submit">
+          <span>Log In</span>
+          <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+        </button>
+
+        <div class="w-full bg-surface-container rounded-lg p-3 mt-1 flex items-center justify-center gap-2 text-on-surface-variant">
+          <span class="material-symbols-outlined text-emerald-600 text-[18px]" style="font-variation-settings: 'FILL' 1;">
+            verified_user
+          </span>
+          <span class="text-[12px] text-center font-medium">
+            256-bit encrypted venue management session
+          </span>
+        </div>
+      </form>
+
+      <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center">
+        <a href="/" class="text-[13px] text-primary font-semibold hover:underline flex items-center gap-1">
+          <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+          <span>Return to Attendee Portal</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- System Status Footer -->
+    <div class="mt-6 flex items-center justify-center gap-4 text-on-surface-variant text-[12px]">
+      <div class="flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-medium">Gateway Online</span>
+      </div>
+      <span class="text-outline-variant">•</span>
+      <span class="font-mono">Venue Console v4.8</span>
+    </div>
+  </main>
+
+  <script>
+    // Password visibility toggle
+    const passwordInput = document.getElementById('organizer-password');
+    const toggleButton = document.getElementById('toggle-password-btn');
+    const toggleIcon = document.getElementById('password-toggle-icon');
+
+    toggleButton.addEventListener('click', function() {
+      const isPassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+      toggleIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+    });
+
+    // Form Submission
+    const form = document.getElementById('organizer-login-form');
+    const submitBtn = document.getElementById('login-submit-button');
+    const errorAlert = document.getElementById('login-error-alert');
+    const errorText = document.getElementById('login-error-text');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      errorAlert.classList.add('hidden');
+
+      const email = document.getElementById('organizer-email').value.trim();
+      const password = document.getElementById('organizer-password').value;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
+        <span>Authenticating...</span>
+      `;
+
+      try {
+        const res = await fetch('/api/organizer/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          localStorage.setItem('organizerUser', JSON.stringify(data.organizer));
+          window.location.href = '/organizer/dashboard';
+        } else {
+          errorText.textContent = data.message || 'Invalid email or password.';
+          errorAlert.classList.remove('hidden');
+        }
+      } catch (err) {
+        errorText.textContent = 'Network error connecting to authentication service.';
+        errorAlert.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `
+          <span>Log In</span>
+          <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

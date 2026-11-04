@@ -1,0 +1,14 @@
+.env
+uploads/
+server/uploads/
+cloudflared.exe
+__pycache__/
+*.pyc
+venv/
+.venv/
+.idea/
+.vscode/
+node_modules/
+mysql_data/
+~$*
+*.tmp

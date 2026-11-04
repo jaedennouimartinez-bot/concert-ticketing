@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Concert Ticketing • Secure Digital Tickets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0037b0",
+            "primary-container": "#1d4ed8",
+            "on-primary": "#ffffff",
+            "secondary": "#006e2d",
+            "secondary-container": "#7cf994",
+            "on-secondary-container": "#007230",
+            "surface": "#faf8ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "surface-container": "#eaedff",
+            "surface-container-high": "#e2e7ff",
+            "surface-container-highest": "#dae2fd",
+            "on-surface": "#131b2e",
+            "on-surface-variant": "#434655",
+            "outline": "#747686",
+            "outline-variant": "#c4c5d7",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "inverse-surface": "#283044",
+            "inverse-on-surface": "#eef0ff",
+            "primary-fixed": "#dce1ff"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; width: 100%; }
+      body { overscroll-behavior-y: none; font-family: 'Inter', sans-serif; }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .screen-container { display: none; }
+    .screen-container.active { display: flex; }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col justify-start items-center">
+
+  <!-- Mobile Viewport Wrapper (390px - 440px) -->
+  <div class="w-full max-w-[440px] min-h-screen bg-surface flex flex-col relative shadow-2xl border-x border-slate-100">
+
+    <!-- Global App Header (for steps 1-3) -->
+    <header id="app-nav-header" class="hidden sticky top-0 w-full z-40 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30 px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <button id="nav-back-btn" type="button" aria-label="Go back" class="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-on-surface hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-[24px]">arrow_back_ios_new</span>
+        </button>
+        <img src="/images/logo.svg" alt="Concert Ticketing" class="w-7 h-7 object-contain">
+        <h1 id="nav-header-title" class="text-[17px] font-semibold text-on-surface tracking-tight truncate ml-1">Attendee Flow</h1>
+      </div>
+      <div class="flex items-center">
+        <a href="/organizer/login" title="Organizer Box Office Portal" class="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary/20 text-primary flex items-center justify-center transition-all">
+          <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- MAIN APP CONTENT AREA -->
+    <main class="flex-1 flex flex-col relative w-full pb-safe">
+
+      <!-- ========================================== -->
+      <!-- SCREEN 1: WELCOME SCREEN                   -->
+      <!-- ========================================== -->
+      <section id="screen-welcome" class="screen-container active flex-col w-full px-4 pb-8 pt-6 select-none min-w-0">
+        <!-- Brand & Identity Section -->
+        <div class="flex flex-col items-center text-center mt-2">
+          <div class="relative flex items-center justify-center mb-5">
+            <div class="absolute -inset-2 bg-primary-container/10 rounded-full blur-xl"></div>
+            <div class="relative w-24 h-24 rounded-2xl bg-surface-container-lowest p-2 shadow-sm flex items-center justify-center">
+              <img src="/images/logo.svg" alt="Concert Ticketing Logo" class="w-full h-full object-contain rounded-lg">
+            </div>
+          </div>
+          <h1 class="text-[26px] font-extrabold text-on-surface tracking-tight">Concert Ticketing</h1>
+          <p class="text-[16px] text-on-surface-variant mt-1.5 font-normal">Secure Digital Tickets</p>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 mt-4 rounded-full bg-emerald-100 text-emerald-800">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span class="text-[12px] font-bold tracking-wide uppercase">Gate Access Ready</span>
+          </div>
+        </div>
+
+        <!-- Interactive Atmosphere Showcase Card -->
+        <div class="mt-6 rounded-2xl bg-surface-container-lowest shadow-sm p-4 relative overflow-hidden border border-slate-100">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[18px]">confirmation_number</span>
+              </div>
+              <span class="text-[14px] text-on-surface font-semibold">Live Event Pass</span>
+            </div>
+            <span class="text-[11px] text-emerald-700 font-bold uppercase tracking-wider bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Encrypted</span>
+          </div>
+          <!-- Stylized ticket visual simulation -->
+          <div class="rounded-xl bg-surface-container-low p-3.5 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-primary-container text-white flex flex-col items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[22px]">graphic_eq</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <span class="text-[12px] text-on-surface-variant font-medium">FEATURED CONCERT</span>
+                <span class="text-[12px] text-primary font-bold">STAGE 01</span>
+              </div>
+              <p class="text-[15px] font-bold text-on-surface truncate mt-0.5" id="welcome-event-title">Midnight Echoes World Tour 2025</p>
+              <p class="text-[12px] text-on-surface-variant truncate">NFC Dynamic QR Refresh • Metro Arena</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Badges & Highlights -->
+        <div class="mt-6 flex flex-col gap-2.5">
+          <div class="flex items-center p-3.5 rounded-xl bg-surface-container-lowest shadow-sm gap-3.5 border border-slate-100">
+            <div class="w-10 h-10 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+              <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <h2 class="text-[15px] font-bold text-on-surface leading-tight">Verified Admissions</h2>
+              <p class="text-[13px] text-on-surface-variant leading-snug mt-0.5">Direct official partner issuance with cryptographic authenticity.</p>
+            </div>
+          </div>
+          <div class="flex items-center p-3.5 rounded-xl bg-surface-container-lowest shadow-sm gap-3.5 border border-slate-100">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <h2 class="text-[15px] font-bold text-on-surface leading-tight">Zero Fraud Guarantee</h2>
+              <p class="text-[13px] text-on-surface-variant leading-snug mt-0.5">Rotating dynamic barcodes shield against screenshots and dupes.</p>
+            </div>
+          </div>
+          <div class="flex items-center p-3.5 rounded-xl bg-surface-container-lowest shadow-sm gap-3.5 border border-slate-100">
+            <div class="w-10 h-10 rounded-xl bg-surface-container-high text-primary-container flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <h2 class="text-[15px] font-bold text-on-surface leading-tight">Instant Gate Entry</h2>
+              <p class="text-[13px] text-on-surface-variant leading-snug mt-0.5">Offline-capable turnstile scans for seamless venue access.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Block -->
+        <div class="mt-8 flex flex-col items-center w-full">
+          <button id="welcome-get-ticket-cta" class="w-full h-14 min-h-[48px] rounded-xl bg-primary-container hover:bg-blue-700 active:scale-[0.99] text-white font-bold text-[16px] flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer">
+            <span>Get Ticket</span>
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+          </button>
+
+          <!-- Quick Ticket Lookup Card -->
+          <div class="w-full mt-4 p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-3 border border-slate-100">
+            <div class="flex items-center justify-between">
+              <span class="text-[14px] text-on-surface font-semibold flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[18px] text-primary">confirmation_number</span>
+                Already have a ticket?
+              </span>
+              <span class="text-[12px] text-on-surface-variant font-normal">Quick Lookup</span>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="welcome-lookup-input" class="sr-only">Account Number</label>
+              <div class="relative flex items-center">
+                <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px] pointer-events-none">badge</span>
+                <input id="welcome-lookup-input" type="text" placeholder="Enter Account # (e.g. ACCT-892410)" class="w-full h-12 min-h-[48px] pl-10 pr-3 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/60 text-[14px] outline-none border border-outline-variant/40 focus:border-primary transition-all font-mono">
+              </div>
+              <button type="button" id="welcome-lookup-btn" class="w-full h-12 min-h-[48px] rounded-lg bg-surface-container-high hover:bg-surface-container-highest active:scale-[0.99] text-primary font-bold text-[14px] flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <span>View My Ticket</span>
+                <span class="material-symbols-outlined text-[18px]">qr_code_2</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center gap-1.5 mt-4 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[15px] text-emerald-600">lock</span>
+            <span class="text-[12px]">256-bit Gate-Scan Security Protocol</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SCREEN 2: ATTENDEE REGISTRATION (STEP 1)   -->
+      <!-- ========================================== -->
+      <section id="screen-register" class="screen-container flex-col w-full px-4 py-4 min-w-0">
+        <!-- Step 1 of 3 Progress Card -->
+        <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col gap-2 border border-slate-100">
+          <div class="flex items-center justify-between">
+            <span class="text-[14px] font-semibold text-on-surface">Step 1 of 3</span>
+            <span class="text-[12px] text-primary font-bold uppercase tracking-wider">Attendee Info</span>
+          </div>
+          <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+            <div class="bg-primary-container h-full w-1/3 rounded-full transition-all duration-300"></div>
+          </div>
+          <div class="flex items-center gap-1 text-on-surface-variant text-[12px] pt-1">
+            <span class="material-symbols-outlined text-[16px] text-emerald-600">verified_user</span>
+            <span>Identity will be verified at venue fast-track gates</span>
+          </div>
+        </div>
+
+        <!-- Concert Context Card -->
+        <div class="mt-4 bg-surface-container-low p-4 rounded-xl shadow-sm flex items-center gap-3.5 border border-slate-100">
+          <div class="w-14 h-14 rounded-lg overflow-hidden shrink-0 shadow-sm bg-surface-container-high flex items-center justify-center">
+            <span class="material-symbols-outlined text-[28px] text-primary">stadium</span>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span class="text-[11px] text-orange-800 uppercase font-bold tracking-wide">Primary Ticket Holder</span>
+            <h2 class="text-[16px] font-bold text-on-surface truncate" id="reg-event-title">Midnight Echoes World Tour 2025</h2>
+            <p class="text-[13px] text-on-surface-variant truncate" id="reg-event-meta">Sat, Nov 15 • 8:00 PM • Metro Arena</p>
+          </div>
+        </div>
+
+        <!-- Attendee Form -->
+        <form id="attendee-form" class="mt-5 flex flex-col gap-4">
+          <!-- Full Name -->
+          <div class="flex flex-col gap-1.5">
+            <label for="reg-fullname" class="text-[15px] font-bold text-on-surface flex items-center justify-between">
+              <span>Full Name</span>
+              <span class="text-[12px] text-on-surface-variant font-normal">Matches Photo ID</span>
+            </label>
+            <div class="relative flex items-center">
+              <input id="reg-fullname" type="text" placeholder="e.g. Alex Morgan" required class="w-full min-h-[48px] px-3.5 text-[15px] text-on-surface bg-surface-container-lowest rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-container transition-all">
+              <span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">badge</span>
+            </div>
+          </div>
+
+          <!-- Email Address -->
+          <div class="flex flex-col gap-1.5">
+            <label for="reg-email" class="text-[15px] font-bold text-on-surface flex items-center justify-between">
+              <span>Email Address</span>
+              <span class="text-[12px] text-on-surface-variant font-normal">Ticket Delivery</span>
+            </label>
+            <div class="relative flex items-center">
+              <input id="reg-email" type="email" placeholder="e.g. alex.morgan@example.com" required class="w-full min-h-[48px] px-3.5 text-[15px] text-on-surface bg-surface-container-lowest rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-container transition-all">
+              <span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">mail</span>
+            </div>
+          </div>
+
+          <!-- Account Number -->
+          <div class="flex flex-col gap-1.5">
+            <label for="reg-account" class="text-[15px] font-bold text-on-surface flex items-center justify-between">
+              <span>Account Number</span>
+              <span class="text-[12px] text-primary font-bold">Loyalty Pass</span>
+            </label>
+            <div class="relative flex items-center">
+              <input id="reg-account" type="text" placeholder="e.g. ACCT-892410" required class="w-full min-h-[48px] px-3.5 text-[15px] font-mono text-on-surface bg-surface-container-lowest rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-container transition-all">
+              <span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">confirmation_number</span>
+            </div>
+          </div>
+
+          <!-- Valid Government ID Upload Area -->
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[15px] font-bold text-on-surface flex items-center justify-between">
+              <span>Valid Government ID</span>
+              <span class="text-[12px] text-emerald-700 font-bold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 inline-block"></span>
+                256-bit Encrypted
+              </span>
+            </label>
+            <div id="id-dropzone" class="relative w-full min-h-[110px] p-4 rounded-xl bg-surface-container-lowest border-2 border-dashed border-slate-300 hover:border-primary-container transition-all flex flex-col items-center justify-center text-center cursor-pointer group shadow-sm">
+              <input id="id-file-input" type="file" accept="image/png,image/jpeg,application/pdf" class="hidden">
+              <div id="upload-default-view" class="flex flex-col items-center gap-1">
+                <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary-container group-hover:scale-110 transition-transform">
+                  <span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+                </div>
+                <p class="font-bold text-[14px] text-on-surface leading-tight mt-1">Tap to upload government-issued ID</p>
+                <p class="text-[12px] text-on-surface-variant font-normal">(PNG, JPG, PDF up to 10MB)</p>
+              </div>
+              <div id="upload-active-view" class="hidden flex-row items-center gap-3 w-full bg-surface-container-low p-2 rounded-lg">
+                <div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0">
+                  <span class="material-symbols-outlined text-[22px]">check_circle</span>
+                </div>
+                <div class="flex flex-col text-left min-w-0 flex-1">
+                  <span id="uploaded-filename" class="font-bold text-[14px] text-on-surface truncate">passport_scan.jpg</span>
+                  <span class="text-[12px] text-emerald-700 font-semibold">Upload Complete • Ready</span>
+                </div>
+                <button type="button" id="remove-file-btn" class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:text-error hover:bg-error-container/20 transition-colors" title="Remove file">
+                  <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Privacy Footnote -->
+          <div class="bg-surface-container-high/60 p-3 rounded-lg flex items-start gap-2 mt-1">
+            <span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">lock</span>
+            <p class="text-[12px] text-on-surface-variant leading-relaxed">
+              Your credentials are securely matched with festival admission database and automatically purged 48 hours post-event.
+            </p>
+          </div>
+
+          <!-- Action Button -->
+          <div class="pt-3 pb-4 flex flex-col gap-2">
+            <button type="button" id="reg-next-btn" class="w-full min-h-[48px] h-13 bg-primary-container hover:bg-blue-800 text-white font-bold text-[16px] rounded-xl flex items-center justify-center gap-2 shadow-md active:scale-[0.99] transition-all cursor-pointer">
+              <span>Next</span>
+              <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </button>
+            <p class="text-[12px] text-center text-outline">Step 1 of 3: Attendee Identification & Access Pass</p>
+          </div>
+        </form>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SCREEN 3: EVENT & TICKET SELECTION (STEP 2) -->
+      <!-- ========================================== -->
+      <section id="screen-ticket-select" class="screen-container flex-col w-full px-4 py-4 min-w-0">
+        <!-- Progress Bar -->
+        <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col gap-2 border border-slate-100">
+          <div class="flex items-center justify-between">
+            <span class="text-[12px] text-primary font-bold uppercase tracking-wider">Checkout Flow</span>
+            <span class="text-[13px] font-semibold text-on-surface-variant bg-surface-container px-2.5 py-0.5 rounded-full">Step 2 of 3</span>
+          </div>
+          <div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden flex">
+            <div class="bg-primary h-full w-2/3 rounded-full transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <div class="mt-3 mb-2">
+          <h2 class="text-[22px] font-extrabold text-on-surface">Select Event & Pass</h2>
+          <p class="text-[14px] text-on-surface-variant mt-0.5">Confirm your date and select your preferred tier for entry.</p>
+        </div>
+
+        <!-- Event Banner Card -->
+        <div class="relative w-full h-36 rounded-xl overflow-hidden shadow-sm my-3 bg-surface-container-high border border-slate-100">
+          <div class="w-full h-full bg-gradient-to-tr from-blue-900 via-indigo-900 to-slate-900 flex flex-col justify-end p-4 text-white">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-900 text-[11px] px-2 py-0.5 rounded-full font-bold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                Selling Fast
+              </span>
+              <span class="text-[12px] text-slate-200" id="tier-banner-venue">Metro Arena • Hall A</span>
+            </div>
+            <p class="text-[17px] font-bold truncate" id="tier-banner-title">Midnight Echoes World Tour 2025</p>
+          </div>
+        </div>
+
+        <form id="tier-selection-form" class="flex flex-col gap-4">
+          <!-- 1. Event Dropdown -->
+          <div class="flex flex-col gap-1.5">
+            <label for="event-select-dropdown" class="text-[14px] font-semibold text-on-surface flex items-center justify-between">
+              <span>Selected Event</span>
+              <span class="text-[12px] text-primary font-bold">Tour Leg 04</span>
+            </label>
+            <div class="relative flex items-center">
+              <select id="event-select-dropdown" class="w-full min-h-[48px] h-12 bg-surface-container-lowest text-on-surface text-[14px] font-medium rounded-xl pl-4 pr-10 shadow-sm border border-slate-300 appearance-none focus:outline-none focus:border-primary transition-colors cursor-pointer">
+                <!-- Dynamically populated -->
+              </select>
+              <span class="material-symbols-outlined absolute right-3 pointer-events-none text-on-surface-variant text-[22px]">expand_more</span>
+            </div>
+          </div>
+
+          <!-- 2. Event Date & Time Field -->
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[14px] font-semibold text-on-surface">Event Date & Time</label>
+            <div class="w-full min-h-[48px] h-12 bg-surface-container-low text-on-surface rounded-xl px-4 flex items-center justify-between shadow-sm border border-slate-200">
+              <div class="flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-primary text-[22px]">calendar_month</span>
+                <span id="tier-date-display" class="font-bold text-[14px] text-on-surface">Saturday, Nov 15, 2025 • 8:00 PM</span>
+              </div>
+              <span class="text-[11px] bg-surface-container-high text-primary px-2 py-0.5 rounded font-semibold">EST</span>
+            </div>
+          </div>
+
+          <!-- 3. Ticket Type Dropdown -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex items-center justify-between">
+              <label for="ticket-type-dropdown" class="text-[14px] font-semibold text-on-surface">Ticket Type</label>
+              <span class="text-[12px] text-on-surface-variant">Prices incl. taxes</span>
+            </div>
+            <div class="relative flex items-center">
+              <select id="ticket-type-dropdown" class="w-full min-h-[48px] h-12 bg-surface-container-lowest text-on-surface text-[14px] font-medium rounded-xl pl-4 pr-10 shadow-sm border border-slate-300 appearance-none focus:outline-none focus:border-primary transition-colors cursor-pointer">
+                <!-- Dynamically populated -->
+              </select>
+              <span class="material-symbols-outlined absolute right-3 pointer-events-none text-on-surface-variant text-[22px]">expand_more</span>
+            </div>
+          </div>
+
+          <!-- 4. Notice Banner -->
+          <div class="bg-surface-container-high rounded-xl p-3.5 flex items-start gap-3 shadow-sm">
+            <span class="material-symbols-outlined text-primary text-[22px] shrink-0 mt-0.5">info</span>
+            <div class="flex flex-col">
+              <span class="font-bold text-[14px] text-on-surface">Limit: 1 ticket per account</span>
+              <span class="text-[13px] text-on-surface-variant">Fair booking protection active. Resale caps apply to ensure genuine fan access.</span>
+            </div>
+          </div>
+
+          <!-- 5. Included with this Pass -->
+          <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-3 border border-slate-100">
+            <div class="flex items-center justify-between">
+              <span class="text-[13px] font-bold text-on-surface uppercase tracking-wide">Included with this Pass</span>
+              <span class="material-symbols-outlined text-emerald-600 text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+            </div>
+            <div id="inclusions-chips-container" class="flex flex-wrap gap-2">
+              <!-- Dynamically populated chips -->
+            </div>
+          </div>
+
+          <!-- 6. Price Summary Pill -->
+          <div class="bg-surface-container-low rounded-xl p-4 flex items-center justify-between border border-slate-200">
+            <div class="flex flex-col">
+              <span class="text-[12px] text-on-surface-variant">Subtotal (1x Pass)</span>
+              <span id="tier-subtotal-price" class="text-[22px] font-bold text-primary">$85.00</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-surface-container-highest px-3 py-1.5 rounded-lg">
+              <span class="material-symbols-outlined text-emerald-600 text-[18px]">lock</span>
+              <span class="text-[12px] text-on-surface font-semibold">Reserved for 10:00</span>
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <div class="pt-2 pb-4">
+            <button type="button" id="tier-next-btn" class="w-full min-h-[48px] h-12 bg-primary-container hover:bg-primary text-white font-bold text-[16px] rounded-xl flex items-center justify-center gap-2 shadow-md active:scale-[0.99] transition-all cursor-pointer">
+              <span>Next</span>
+              <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SCREEN 4: REVIEW DETAILS (STEP 3)          -->
+      <!-- ========================================== -->
+      <section id="screen-review" class="screen-container flex-col w-full px-4 py-4 min-w-0">
+        <!-- Progress Header -->
+        <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col gap-2 border border-slate-100">
+          <div class="flex items-center justify-between">
+            <span class="text-[12px] text-primary font-bold uppercase tracking-wider">Final Step</span>
+            <div class="flex items-center gap-1.5 bg-surface-container-high px-2.5 py-0.5 rounded-full">
+              <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+              <span class="text-[12px] text-primary font-bold">Step 3 of 3</span>
+            </div>
+          </div>
+          <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden flex">
+            <div class="bg-primary h-full w-full rounded-full transition-all duration-500"></div>
+          </div>
+        </div>
+
+        <div class="mt-3 mb-2">
+          <h2 class="text-[22px] font-extrabold text-on-surface">Review Details</h2>
+          <p class="text-[14px] text-on-surface-variant mt-0.5">Please ensure your personal details and ticket choices are accurate before issuing.</p>
+        </div>
+
+        <!-- Event Spotlight Card -->
+        <div class="relative w-full rounded-xl overflow-hidden bg-surface-container-low shadow-sm flex items-center p-3 gap-3.5 my-2 border border-slate-100">
+          <div class="w-16 h-16 rounded-lg bg-blue-900 text-white flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[32px]">stadium</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px] text-emerald-600" style="font-variation-settings: 'FILL' 1;">verified</span>
+              <span class="text-[11px] text-emerald-700 font-bold uppercase">Official Pass</span>
+            </div>
+            <h3 id="review-event-title" class="font-bold text-[15px] text-on-surface truncate">Midnight Echoes World Tour</h3>
+            <p id="review-event-meta" class="text-[13px] text-on-surface-variant flex items-center gap-1 mt-0.5 truncate">
+              <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+              Sat, Nov 15 • 8:00 PM
+            </p>
+          </div>
+        </div>
+
+        <!-- Summary Details Card with Edit Buttons -->
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm p-4 flex flex-col gap-3.5 border border-slate-100 my-2">
+          <!-- Row 1: Name -->
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex-1 min-w-0">
+              <span class="text-[13px] text-on-surface-variant block">Name</span>
+              <span id="review-name" class="font-bold text-[15px] text-on-surface block truncate">Alex Morgan</span>
+            </div>
+            <button type="button" id="edit-name-btn" class="text-primary-container font-bold text-[14px] hover:underline shrink-0 px-2 py-1 cursor-pointer">Edit</button>
+          </div>
+          <div class="h-px bg-surface-container-low w-full"></div>
+
+          <!-- Row 2: Email -->
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex-1 min-w-0">
+              <span class="text-[13px] text-on-surface-variant block">Email</span>
+              <span id="review-email" class="font-bold text-[15px] text-on-surface block truncate">alex.morgan@example.com</span>
+            </div>
+            <button type="button" id="edit-email-btn" class="text-primary-container font-bold text-[14px] hover:underline shrink-0 px-2 py-1 cursor-pointer">Edit</button>
+          </div>
+          <div class="h-px bg-surface-container-low w-full"></div>
+
+          <!-- Row 3: Account Number -->
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex-1 min-w-0">
+              <span class="text-[13px] text-on-surface-variant block">Account Number</span>
+              <span id="review-account" class="font-bold text-[15px] text-on-surface block font-mono">ACCT-892410</span>
+            </div>
+            <button type="button" id="edit-account-btn" class="text-primary-container font-bold text-[14px] hover:underline shrink-0 px-2 py-1 cursor-pointer">Edit</button>
+          </div>
+          <div class="h-px bg-surface-container-low w-full"></div>
+
+          <!-- Row 4: Event -->
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex-1 min-w-0">
+              <span class="text-[13px] text-on-surface-variant block">Event</span>
+              <span id="review-event-display" class="font-bold text-[15px] text-on-surface block truncate">Midnight Echoes World Tour 2025</span>
+            </div>
+            <button type="button" id="edit-event-btn" class="text-primary-container font-bold text-[14px] hover:underline shrink-0 px-2 py-1 cursor-pointer">Edit</button>
+          </div>
+          <div class="h-px bg-surface-container-low w-full"></div>
+
+          <!-- Row 5: Ticket Type -->
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex-1 min-w-0">
+              <span class="text-[13px] text-on-surface-variant block">Ticket Type</span>
+              <span id="review-tier-display" class="font-bold text-[15px] text-on-surface block truncate">General Admission ($85.00)</span>
+            </div>
+            <button type="button" id="edit-tier-btn" class="text-primary-container font-bold text-[14px] hover:underline shrink-0 px-2 py-1 cursor-pointer">Edit</button>
+          </div>
+        </div>
+
+        <!-- Price Breakdown -->
+        <div class="bg-surface-container-low rounded-xl p-4 flex flex-col gap-2.5 my-2 border border-slate-200">
+          <div class="flex items-center justify-between">
+            <span class="text-[14px] text-on-surface-variant">Subtotal</span>
+            <span id="review-breakdown-subtotal" class="text-[14px] font-semibold text-on-surface">$85.00</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[14px] text-on-surface-variant">Service Fee</span>
+              <span class="px-1.5 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">FREE</span>
+            </div>
+            <span class="text-[14px] text-emerald-600 font-medium">$0.00</span>
+          </div>
+          <div class="h-px bg-surface-container-high my-0.5"></div>
+          <div class="flex items-center justify-between pt-0.5">
+            <div>
+              <span class="font-bold text-[15px] text-on-surface">Total</span>
+              <span class="text-[11px] text-on-surface-variant block">Taxes included</span>
+            </div>
+            <span id="review-breakdown-total" class="text-[20px] font-extrabold text-on-surface">$85.00</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-2 my-2">
+          <span class="material-symbols-outlined text-emerald-600 text-[18px]" style="font-variation-settings: 'FILL' 1;">security</span>
+          <span class="text-[12px] text-on-surface-variant">Encrypted 256-bit checkout • 100% Guaranteed Entry</span>
+        </div>
+
+        <!-- Bottom Confirm CTA -->
+        <div class="pt-2 pb-6 mt-auto">
+          <button type="button" id="review-confirm-btn" class="w-full h-12 min-h-[48px] bg-primary-container text-white font-bold text-[16px] rounded-xl shadow-md flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-150 hover:bg-blue-800 cursor-pointer">
+            <span>Confirm</span>
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+          </button>
+          <p class="text-[12px] text-center text-on-surface-variant mt-2.5">
+            By confirming, you agree to the Venue & Ticketing Terms.
+          </p>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SCREEN 5: DIGITAL TICKET                   -->
+      <!-- ========================================== -->
+      <section id="screen-ticket-view" class="screen-container flex-col w-full px-4 py-4 min-w-0">
+        <!-- Top Status Badge -->
+        <div class="flex items-center justify-center mb-1">
+          <div class="bg-emerald-100 text-emerald-900 font-bold text-[14px] px-4 py-2 rounded-full inline-flex items-center gap-2 shadow-sm">
+            <span class="material-symbols-outlined text-[20px] text-emerald-700">check_circle</span>
+            <span id="ticket-issued-pill-text">Ticket Issued</span>
+          </div>
+        </div>
+        <p class="text-[14px] text-on-surface-variant text-center px-4 mb-3">
+          Your pass is active and ready for gate check-in.
+        </p>
+
+        <!-- Ticket Card Stub Container -->
+        <div class="w-full relative bg-surface-container-lowest rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+          <!-- Hero Event Banner Inside Stub -->
+          <div class="relative h-40 w-full overflow-hidden bg-slate-900 text-white p-4 flex flex-col justify-end">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            <div class="relative z-10 flex flex-col">
+              <div class="flex items-center justify-between mb-1">
+                <span class="bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-emerald-200 animate-ping"></span>
+                  Live Event
+                </span>
+                <span class="text-[11px] text-slate-300 tracking-wider uppercase" id="ticket-gate-badge">Gate 4 Entrance</span>
+              </div>
+              <h2 id="ticket-card-title" class="text-[18px] font-bold leading-tight truncate">Midnight Echoes World Tour 2025</h2>
+            </div>
+          </div>
+
+          <!-- Attendee & Validity -->
+          <div class="p-4 flex flex-col gap-3 bg-surface-container-lowest">
+            <div class="flex items-start justify-between">
+              <div class="flex flex-col">
+                <span class="text-[13px] text-outline">Attendee</span>
+                <span id="ticket-card-attendee" class="font-bold text-[16px] text-on-surface">Alex Morgan</span>
+              </div>
+              <div class="flex flex-col items-end">
+                <span class="text-[13px] text-outline">Pass Status</span>
+                <div id="ticket-card-status-badge" class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold text-[13px] mt-0.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                  <span id="ticket-card-status-text">Valid</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Date & Time -->
+            <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg">
+              <div class="w-9 h-9 rounded-lg bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+                <span class="material-symbols-outlined text-[20px]">calendar_today</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[12px] text-outline leading-tight">Date & Time</span>
+                <span id="ticket-card-date" class="font-bold text-[13px] text-on-surface">Saturday, Nov 15, 2025 • 8:00 PM</span>
+              </div>
+            </div>
+
+            <!-- Ticket Type & Seat -->
+            <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg">
+              <div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary shrink-0">
+                <span class="material-symbols-outlined text-[20px]">confirmation_number</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[12px] text-outline leading-tight">Ticket Type</span>
+                <span id="ticket-card-seat" class="font-bold text-[13px] text-on-surface truncate">General Admission (Section B, Gate 4)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ticket Stub Perforation Divider with Physical Notches -->
+          <div class="relative w-full py-2 flex items-center justify-center bg-surface-container-lowest">
+            <div class="absolute -left-3.5 w-7 h-7 bg-surface rounded-full shadow-inner border border-slate-200"></div>
+            <div class="w-[85%] border-b-2 border-dashed border-outline-variant"></div>
+            <div class="absolute -right-3.5 w-7 h-7 bg-surface rounded-full shadow-inner border border-slate-200"></div>
+          </div>
+
+          <!-- Scannable Code Section (Bottom Stub) -->
+          <div class="p-4 bg-surface-container-lowest flex flex-col items-center text-center">
+            <div class="flex items-center justify-between w-full mb-2.5 px-2">
+              <span class="text-[13px] text-outline">Digital Entry Barcode</span>
+              <span id="live-ticket-timer" class="font-bold text-[14px] text-primary-container font-mono">15:00</span>
+            </div>
+
+            <!-- Crisp QR Code Area -->
+            <div class="relative p-3 bg-surface rounded-xl shadow-md flex flex-col items-center justify-center w-full max-w-[260px] border border-slate-200">
+              <div class="relative p-2 bg-white rounded-lg shadow-sm">
+                <!-- High Density Dynamic QR SVG -->
+                <svg id="ticket-qr-svg" class="w-44 h-44" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Corner Finder 1 -->
+                  <rect x="10" y="10" width="38" height="38" rx="4" fill="#131B2E"/>
+                  <rect x="16" y="16" width="26" height="26" rx="2" fill="#FAF8FF"/>
+                  <rect x="22" y="22" width="14" height="14" rx="2" fill="#131B2E"/>
+                  <!-- Corner Finder 2 -->
+                  <rect x="112" y="10" width="38" height="38" rx="4" fill="#131B2E"/>
+                  <rect x="118" y="16" width="26" height="26" rx="2" fill="#FAF8FF"/>
+                  <rect x="124" y="22" width="14" height="14" rx="2" fill="#131B2E"/>
+                  <!-- Corner Finder 3 -->
+                  <rect x="10" y="112" width="38" height="38" rx="4" fill="#131B2E"/>
+                  <rect x="16" y="118" width="26" height="26" rx="2" fill="#FAF8FF"/>
+                  <rect x="22" y="124" width="14" height="14" rx="2" fill="#131B2E"/>
+                  <!-- Data matrix pattern -->
+                  <rect x="56" y="12" width="8" height="8" fill="#131B2E"/>
+                  <rect x="70" y="12" width="8" height="8" fill="#131B2E"/>
+                  <rect x="84" y="12" width="8" height="8" fill="#131B2E"/>
+                  <rect x="98" y="12" width="8" height="8" fill="#131B2E"/>
+                  <rect x="56" y="26" width="8" height="8" fill="#131B2E"/>
+                  <rect x="76" y="26" width="14" height="8" fill="#131B2E"/>
+                  <rect x="98" y="26" width="8" height="8" fill="#131B2E"/>
+                  <rect x="12" y="56" width="8" height="8" fill="#131B2E"/>
+                  <rect x="26" y="56" width="8" height="8" fill="#131B2E"/>
+                  <rect x="40" y="56" width="8" height="8" fill="#131B2E"/>
+                  <rect x="56" y="56" width="8" height="8" fill="#131B2E"/>
+                  <rect x="70" y="56" width="8" height="8" fill="#131B2E"/>
+                  <rect x="84" y="56" width="8" height="8" fill="#131B2E"/>
+                  <rect x="112" y="56" width="8" height="8" fill="#131B2E"/>
+                  <rect x="136" y="56" width="14" height="8" fill="#131B2E"/>
+                  <rect x="12" y="70" width="8" height="8" fill="#131B2E"/>
+                  <rect x="32" y="70" width="14" height="8" fill="#131B2E"/>
+                  <rect x="56" y="70" width="8" height="8" fill="#131B2E"/>
+                  <rect x="76" y="70" width="8" height="8" fill="#131B2E"/>
+                  <rect x="92" y="70" width="12" height="8" fill="#131B2E"/>
+                  <rect x="120" y="70" width="8" height="8" fill="#131B2E"/>
+                  <rect x="136" y="70" width="8" height="8" fill="#131B2E"/>
+                  <rect x="12" y="84" width="8" height="8" fill="#131B2E"/>
+                  <rect x="28" y="84" width="8" height="8" fill="#131B2E"/>
+                  <rect x="42" y="84" width="8" height="8" fill="#131B2E"/>
+                  <rect x="56" y="84" width="8" height="8" fill="#131B2E"/>
+                  <rect x="70" y="84" width="14" height="8" fill="#131B2E"/>
+                  <rect x="98" y="84" width="8" height="8" fill="#131B2E"/>
+                  <rect x="112" y="84" width="8" height="8" fill="#131B2E"/>
+                  <rect x="128" y="84" width="8" height="8" fill="#131B2E"/>
+                  <rect x="56" y="112" width="14" height="8" fill="#131B2E"/>
+                  <rect x="78" y="112" width="8" height="8" fill="#131B2E"/>
+                  <rect x="94" y="112" width="8" height="8" fill="#131B2E"/>
+                  <rect x="116" y="112" width="8" height="8" fill="#131B2E"/>
+                  <rect x="130" y="112" width="14" height="8" fill="#131B2E"/>
+                  <rect x="56" y="126" width="8" height="8" fill="#131B2E"/>
+                  <rect x="70" y="126" width="12" height="8" fill="#131B2E"/>
+                  <rect x="92" y="126" width="14" height="8" fill="#131B2E"/>
+                  <rect x="120" y="126" width="8" height="8" fill="#131B2E"/>
+                  <rect x="136" y="126" width="8" height="8" fill="#131B2E"/>
+                  <rect x="56" y="140" width="16" height="8" fill="#131B2E"/>
+                  <rect x="80" y="140" width="8" height="8" fill="#131B2E"/>
+                  <rect x="98" y="140" width="18" height="8" fill="#131B2E"/>
+                  <rect x="126" y="140" width="8" height="8" fill="#131B2E"/>
+                </svg>
+                <div class="absolute inset-x-2 top-2 h-1 bg-emerald-400 shadow-[0_0_8px_#7cf994] animate-[pulse_2s_infinite]"></div>
+              </div>
+              <div class="flex items-center gap-1.5 mt-2.5 text-on-surface-variant text-[12px]">
+                <span class="material-symbols-outlined text-[16px] text-primary">wb_sunny</span>
+                <span>Screen brightness will increase at the turnstile</span>
+              </div>
+            </div>
+
+            <!-- Code & Verification -->
+            <div class="mt-3.5 flex flex-col items-center">
+              <span id="ticket-card-code" class="font-bold text-[16px] tracking-widest text-on-surface font-mono">TKT-2025-9924-OK</span>
+              <span class="text-[11px] text-outline mt-0.5">Updated: Just now • Dynamic Refresh Security</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wallet and Utility Buttons -->
+        <div class="w-full flex flex-col gap-2 mt-3">
+          <button type="button" id="ticket-wallet-btn" class="w-full min-h-[48px] h-12 bg-inverse-surface text-inverse-on-surface hover:bg-black transition-colors rounded-xl font-bold text-[14px] flex items-center justify-center gap-2.5 shadow-sm active:scale-[0.99] cursor-pointer">
+            <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+            <span>Add to Apple Wallet / Google Pay</span>
+          </button>
+          <div class="grid grid-cols-2 gap-2 w-full">
+            <button type="button" onclick="alert('Digital pass link copied to clipboard!')" class="min-h-[48px] h-12 bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface rounded-xl font-bold text-[14px] flex items-center justify-center gap-2 cursor-pointer">
+              <span class="material-symbols-outlined text-[20px] text-primary">share</span>
+              <span>Transfer</span>
+            </button>
+            <button type="button" onclick="alert('Venue Directions: Metro Arena, Gate 4 Entrance.')" class="min-h-[48px] h-12 bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface rounded-xl font-bold text-[14px] flex items-center justify-center gap-2 cursor-pointer">
+              <span class="material-symbols-outlined text-[20px] text-primary">directions</span>
+              <span>Directions</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Venue Rules Card -->
+        <div class="w-full bg-surface-container-low rounded-xl p-4 flex gap-3 items-start text-left mt-3 border border-slate-200">
+          <span class="material-symbols-outlined text-primary text-[22px] shrink-0 mt-0.5">info</span>
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-[14px] text-on-surface">Venue Entry Rules</span>
+            <p class="text-[13px] text-on-surface-variant leading-relaxed">
+              Doors open at 6:30 PM. Please have a government-issued photo ID matching the registered name ready with this digital pass.
+            </p>
+          </div>
+        </div>
+
+        <!-- Back to Home Button -->
+        <div class="w-full pt-3 pb-6">
+          <button type="button" id="ticket-back-home-btn" class="w-full min-h-[48px] h-[52px] bg-primary-container hover:bg-primary text-white font-bold text-[15px] rounded-xl flex items-center justify-center shadow-md active:scale-[0.99] transition-all cursor-pointer">
+            Back to Home
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: MISSING INFORMATION MODAL (FR-001)               -->
+  <!-- ======================================================== -->
+  <div id="modal-missing-info" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/60 backdrop-blur-sm transition-opacity duration-200">
+    <div class="w-full max-w-[340px] bg-surface-container-lowest rounded-2xl shadow-2xl p-6 text-center flex flex-col items-center border border-slate-100">
+      <div class="w-14 h-14 rounded-full bg-surface-container-high flex items-center justify-center text-primary-container mb-4 shadow-sm">
+        <span class="material-symbols-outlined text-[30px]" style="font-variation-settings: 'FILL' 1;">assignment_late</span>
+      </div>
+      <h2 class="text-[20px] font-bold text-on-surface mb-1">Missing Information</h2>
+      <p id="missing-info-msg" class="text-[14px] text-on-surface-variant mb-6 leading-snug">Please complete all required fields.</p>
+      <button type="button" id="modal-missing-ok-btn" class="h-12 min-h-[48px] w-full rounded-xl bg-primary-container hover:bg-primary text-white font-bold text-[15px] shadow-sm active:scale-[0.99] transition-all flex items-center justify-center cursor-pointer">
+        OK
+      </button>
+      <div class="mt-3 flex items-center justify-center gap-1.5 opacity-60">
+        <span class="material-symbols-outlined text-[14px] text-outline">verified_user</span>
+        <span class="text-[11px] font-bold tracking-wider text-outline uppercase">Secure Checkout</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: DUPLICATE TICKET MODAL (FR-002)                 -->
+  <!-- ======================================================== -->
+  <div id="modal-duplicate-ticket" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/60 backdrop-blur-sm transition-opacity duration-200">
+    <div class="w-full max-w-[340px] bg-surface-container-lowest rounded-2xl shadow-2xl p-6 text-center flex flex-col items-center border border-slate-100">
+      <div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-primary-container mb-4 relative">
+        <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">content_copy</span>
+        <span class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white rounded-full flex items-center justify-center text-[12px] font-bold">!</span>
+      </div>
+      <h2 class="text-[20px] font-bold text-on-surface mb-1 tracking-tight">Duplicate Ticket</h2>
+      <p class="text-[14px] text-on-surface-variant mb-6 leading-snug">You already hold a ticket for this event.</p>
+      <div class="flex flex-col w-full gap-2">
+        <button type="button" id="modal-duplicate-view-btn" class="h-12 min-h-[48px] w-full bg-primary-container hover:bg-primary text-white font-bold text-[15px] rounded-xl shadow-sm active:scale-[0.98] transition-all flex items-center justify-center cursor-pointer">
+          View My Ticket
+        </button>
+        <button type="button" id="modal-duplicate-dismiss-btn" class="h-12 min-h-[48px] w-full bg-surface-container hover:bg-surface-container-high text-on-surface font-bold text-[15px] rounded-xl active:scale-[0.98] transition-all flex items-center justify-center cursor-pointer">
+          Dismiss
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: PURCHASE BLOCKED MODAL (FR-004 BOT DETECTION)   -->
+  <!-- ======================================================== -->
+  <div id="modal-purchase-blocked" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-background/70 backdrop-blur-sm transition-opacity duration-200">
+    <div class="w-full max-w-[340px] bg-surface-container-lowest rounded-2xl shadow-2xl p-6 text-center flex flex-col items-center border border-slate-100">
+      <div class="w-14 h-14 rounded-full bg-error-container text-on-error-container flex items-center justify-center mb-4 shadow-sm">
+        <span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">gpp_maybe</span>
+      </div>
+      <h2 class="text-[20px] font-bold text-on-surface mb-2 tracking-tight">Purchase Blocked</h2>
+      <p class="text-[14px] text-on-surface-variant mb-6 leading-normal">Unusual activity detected. Please try again later.</p>
+      <button type="button" id="modal-blocked-ok-btn" class="w-full min-h-[48px] h-12 bg-primary-container hover:bg-primary text-white font-bold text-[15px] rounded-xl flex items-center justify-center shadow-sm active:scale-[0.99] transition-all cursor-pointer">
+        OK
+      </button>
+      <div class="mt-4 flex items-center justify-center gap-1.5 text-outline">
+        <span class="material-symbols-outlined text-[14px]">lock</span>
+        <span id="blocked-ref-id" class="text-[12px] font-mono">Ref ID: SEC-88402X</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 4: SOLD OUT MODAL (FR-003 CAPACITY REACHED)        -->
+  <!-- ======================================================== -->
+  <div id="modal-sold-out" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/65 backdrop-blur-sm transition-opacity duration-200">
+    <div class="w-full max-w-[340px] bg-surface-container-lowest rounded-2xl shadow-2xl p-6 text-center flex flex-col items-center border border-slate-100">
+      <div class="w-14 h-14 rounded-full bg-error-container text-on-error-container flex items-center justify-center mb-4 shadow-sm">
+        <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+      </div>
+      <h2 class="text-[20px] font-bold text-on-surface mb-1 tracking-tight">Sold Out</h2>
+      <p class="text-[14px] text-on-surface-variant mb-4 leading-snug">This event has reached capacity.</p>
+      
+      <!-- Event Micro Card -->
+      <div class="w-full bg-surface-container-low rounded-lg p-2.5 mb-5 flex items-center gap-3 text-left border border-slate-200">
+        <div class="w-10 h-10 rounded-lg bg-surface-container-highest overflow-hidden shrink-0 flex items-center justify-center text-primary">
+          <span class="material-symbols-outlined text-[20px]">stadium</span>
+        </div>
+        <div class="flex flex-col min-w-0 flex-1">
+          <span id="soldout-event-title" class="text-[13px] font-bold text-on-surface truncate">Midnight Echoes World Tour</span>
+          <span class="text-[11px] text-outline truncate">Main Stage • 8:00 PM</span>
+        </div>
+        <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant">0 Left</span>
+      </div>
+
+      <button type="button" id="modal-soldout-ok-btn" class="w-full h-12 min-h-[48px] bg-primary-container hover:bg-primary text-white font-bold text-[15px] rounded-xl shadow-sm flex items-center justify-center active:scale-[0.99] transition-all cursor-pointer">
+        OK
+      </button>
+      <button type="button" id="modal-soldout-waitlist-btn" class="mt-2 text-primary font-bold text-[13px] py-1.5 px-3 rounded-full hover:bg-surface-container transition-colors cursor-pointer">
+        Notify if tickets release
+      </button>
+    </div>
+  </div>
+
+  <!-- Attendee Flow Client Logic -->
+  <script src="/js/attendee-flow.js"></script>
+</body>
+</html>
