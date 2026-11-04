@@ -1,14 +1,23 @@
+# Environment & Secrets
 .env
 uploads/
 server/uploads/
 cloudflared.exe
+push_to_github.bat
+
+# System Artifacts & Database
+mysql_data/
+node_modules/
 __pycache__/
 *.pyc
 venv/
 .venv/
 .idea/
 .vscode/
-node_modules/
-mysql_data/
+
+# Academic Paper & Evaluation Documents (Keep off repository)
+*.docx
+generate_final_exam_doc.js
+stitch_export/
 ~$*
 *.tmp
