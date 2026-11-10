@@ -4,7 +4,7 @@
   "description": "Secure Concert Ticketing System with Attendee Registration, QR Pass issuance, and Organizer Box Office Dashboard",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server/models/seed.js && node server.js",
     "seed": "node server/models/seed.js",
     "test": "node server/tests/test_flow.js"
   },

@@ -8,17 +8,20 @@ async function seedData() {
   try {
     console.log('Seeding concert ticketing database...');
 
-    // 1. Seed Organizer
+    // 1. Seed Organizers
     const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash('password123', salt);
+    const passwordHash1 = await bcrypt.hash('password123', salt);
+    const passwordHash2 = await bcrypt.hash('admin123', salt);
     
     await conn.query(`
       INSERT INTO organizers (email, password_hash, full_name, organization, role)
-      VALUES (?, ?, ?, ?, ?)
+      VALUES 
+        ('organizer@venue.com', ?, 'Apex Productions', 'Apex Productions', 'Lead Organizer'),
+        ('admin@concert.test', ?, 'Lead Administrator', 'LivePass Global', 'Admin')
       ON DUPLICATE KEY UPDATE 
         password_hash = VALUES(password_hash),
         full_name = VALUES(full_name);
-    `, ['organizer@venue.com', passwordHash, 'Apex Productions', 'Apex Productions', 'Lead Organizer']);
+    `, [passwordHash1, passwordHash2]);
 
     // 2. Seed Events
     const [eventResult] = await conn.query(`

@@ -1,9 +1,6 @@
 -- Concert Ticketing System Database Schema
 -- Implements Functional Requirements FR-001 through FR-007
 
-CREATE DATABASE IF NOT EXISTS concert_ticketing;
-USE concert_ticketing;
-
 -- 1. Organizers Table
 CREATE TABLE IF NOT EXISTS organizers (
   id INT AUTO_INCREMENT PRIMARY KEY,
