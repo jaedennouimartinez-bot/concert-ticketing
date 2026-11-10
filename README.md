@@ -4,6 +4,20 @@ A secure, high-integrity concert ticketing web application built according to fi
 
 ---
 
+## 🌐 24/7 Live Public Website (Always Online)
+
+The system is deployed on **Railway Cloud** with a dedicated managed MySQL database, accessible worldwide 24/7 without needing a local PC running:
+
+- **Attendee Portal (Live System):** [https://app-production-d8d0.up.railway.app](https://app-production-d8d0.up.railway.app)
+- **Organizer Login:** [https://app-production-d8d0.up.railway.app/organizer/login](https://app-production-d8d0.up.railway.app/organizer/login)
+- **Organizer Dashboard:** [https://app-production-d8d0.up.railway.app/organizer/dashboard](https://app-production-d8d0.up.railway.app/organizer/dashboard)
+
+**Default Organizer Credentials:**
+- **Email:** `admin@concert.test` (or `organizer@venue.com`)
+- **Password:** `admin123` (or `password123`)
+
+---
+
 ## 📌 Project Overview & Architecture
 
 The application provides an end-to-end event admissions and ticketing management platform featuring:
